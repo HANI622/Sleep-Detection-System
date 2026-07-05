@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Sleep Detector</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="main-container">
+
+    <header class="navbar">
+
+    <div class="logo">
+        🤖 AI Sleep Detector
+    </div>
+
+    <div class="nav-center">
+
+        <span class="online-dot"></span>
+
+        <span>System Online</span>
+
+    </div>
+
+    <div class="nav-right">
+
+        <button id="themeBtn">
+            🌙 Dark Mode
+        </button>
+
+        <div id="clock">
+            00:00:00
+        </div>
+
+    </div>
+
+    </header>
+
+    <div class="content">
+
+        <div class="camera-section">
+
+            <h2>📷 Live Camera</h2>
+
+            <img src="{{ url_for('video') }}">
+
+        </div>
+
+        <div class="dashboard">
+
+            <h2>📊 Dashboard</h2>
+
+            <div class="card">
+                <h3>🟢 Status</h3>
+                <p id="status">Waiting...</p>
+            </div>
+
+            <div class="card">
+                <h3>👁 EAR</h3>
+                <p id="ear">0.00</p>
+            </div>
+
+            <div class="card">
+                <h3>👀 Blinks</h3>
+                <p id="blinks">0</p>
+            </div>
+
+            <div class="card">
+                <h3>😴 Sleep Time</h3>
+                <p id="sleep">0 sec</p>
+            </div>
+
+            <div class="card">
+                <h3>😀 Face Count</h3>
+                <p id="faces">0</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer>
+
+        Made with ❤️ by Honey
+
+    </footer>
+
+</div>
+
+<script>
+
+function updateDashboard(){
+
+    fetch("/data")
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        document.getElementById("status").innerHTML = data.status;
+
+        document.getElementById("ear").innerHTML = data.ear;
+
+        document.getElementById("blinks").innerHTML = data.blinks;
+
+        document.getElementById("sleep").innerHTML = data.sleep + " sec";
+
+        document.getElementById("faces").innerHTML = data.faces;
+
+    });
+
+}
+
+setInterval(updateDashboard,500);
+
+updateDashboard();
+
+</script>
+
+<script>
+
+const themeBtn = document.getElementById("themeBtn");
+
+themeBtn.onclick = function(){
+
+    document.body.classList.toggle("light");
+
+    if(document.body.classList.contains("light")){
+
+        themeBtn.innerHTML="🌙 Dark Mode";
+
+    }
+
+    else{
+
+        themeBtn.innerHTML="☀ Light Mode";
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
